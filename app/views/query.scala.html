@@ -1,0 +1,21 @@
+@(countries: List[Country])
+
+@main("Query") {
+    <div>
+        <form action="@routes.QueryController.query()">
+            Country: <input type="text" name="country">
+            <input type="submit" value="Query">
+        </form>
+        @for(country <- countries) {
+            <h2>Airports and runways in @country.name</h2>
+            <ul> @for(airport <- country.airports) {
+                <li>
+                    @airport.name
+                    <ul> @for(runway <- airport.runways) {
+                        <li>@runway.airport_ident</li>
+                    } </ul>
+                </li>
+            } </ul>
+        }
+    </div>
+}

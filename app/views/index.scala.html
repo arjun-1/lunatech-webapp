@@ -1,0 +1,13 @@
+@()
+
+@main("Welcome") {
+    <div>
+        <h2>Hello! What do you want to do?</h2>
+        <form action="@routes.QueryController.query()">
+            <input type="submit" value="Make Query">
+        </form>
+        <form action="@routes.ReportController.report()">
+            <input type="submit" value="Generate Report">
+        </form>
+    </div>
+}

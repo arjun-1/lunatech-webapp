@@ -1,0 +1,16 @@
+@(map: Map[String, List[String]])
+
+
+<h2>Types of runway per country</h2>
+<ul>
+@for((country, surfaces) <- map) {
+    <li>
+        @country
+        <ul>
+        @for(surface <- surfaces) {
+            <li>@surface</li>
+        }
+        </ul>
+    </li>
+}
+</ul>

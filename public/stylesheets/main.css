@@ -1,0 +1,20 @@
+h2 {
+    margin: 10px 10px 10px 10px;
+}
+
+table.twoColumn {
+    width: 200px;
+}
+
+table.twoColumn td, th {
+    border-bottom: 1px solid #ddd;
+}
+
+div {
+    margin: 20px 20px 20px 20px;
+}
+
+input[type="submit"] {
+    width: 150px;
+    margin: 2px 2px 2px 2px;
+}
