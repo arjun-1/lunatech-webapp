@@ -11,13 +11,30 @@ import play.libs.Json;
     @NamedQuery(
         name = "Country.findAll",
        query = "select c " 
-             + "from Country c"
+             + "from Country c "
     ),
     @NamedQuery(
         name = "Country.findByISO",
        query = "select c " 
              + "from Country c "
-             + "where c.code = :iso"
+             + "where c.code = upper(:iso) "
+    ),
+    @NamedQuery(
+        name = "Country.findByName",
+       query = "select c " 
+             + "from Country c "
+             + "where lower(c.name) = lower(:name) "
+    ),
+    @NamedQuery(
+        name = "Country.findByNameOrISO",
+       query = "select c " 
+             + "from Country c "
+             + "where lower(c.name) = lower(:input) or c.code = upper(:input) "
+    ),
+    @NamedQuery(
+        name = "Country.name.findAll",
+       query = "select c.name " 
+             + "from Country c "
     ),
     @NamedQuery(
         name = "Country.name.sortByAirportCountDesc", 
@@ -25,7 +42,7 @@ import play.libs.Json;
              + "from Airport a, Country c "
              + "where c.code = a.iso_country "
              + "group by a.iso_country "
-             + "order by countryCount desc"
+             + "order by countryCount desc "
     )
 })
 @NamedNativeQuery(

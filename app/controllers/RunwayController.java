@@ -24,7 +24,7 @@ public class RunwayController extends Controller {
 
     @Transactional(readOnly = true)
     public Result getRunwaysByAirportID(Long id) {
-        List<Airport> airports  = (List<Airport>) jpaApi.em().createQuery("select p from Airport p where p.id = :id").setParameter("id", id).getResultList();
+        List<Airport> airports  = (List<Airport>) jpaApi.em().createNamedQuery("Airport.findByID").setParameter("id", id).getResultList();
         List<Runway> runways = airports.stream().flatMap(
             airport -> airport.runways.stream()
         ).collect(Collectors.toList());

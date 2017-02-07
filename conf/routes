@@ -5,10 +5,12 @@
 # Home page
 GET     /                               controllers.HomeController.index()
 
-GET     /query                          controllers.QueryController.query(country:String ?= null)
+GET     /query                          controllers.QueryController.query(input:String ?= null)
 GET     /report                         controllers.ReportController.report()
 
-# Just some other stuff
+GET     /countries/name                 controllers.CountryController.getCountryNames()
+
+# The following 2 urls are not really needed for the functioning of the application
 GET     /airports/iso_country/:iso      controllers.AirportController.getAirportsByCountryISO(iso:String)
 GET     /runways/airport_ref/:id        controllers.RunwayController.getRunwaysByAirportID(id:Long)
 

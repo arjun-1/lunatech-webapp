@@ -11,6 +11,7 @@ import javax.persistence.*;
 )
 @Entity
 public class Runway {
+    
     @Id
     public Long id;
 

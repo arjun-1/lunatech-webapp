@@ -1,9 +1,10 @@
 @(countries: List[Country])
 
 @main("Query") {
+    <link rel="stylesheet" href="@routes.Assets.at("lib/horsey/dist/horsey.css")">
     <div>
         <form action="@routes.QueryController.query()">
-            Country: <input type="text" name="country">
+            <label>Country: <input type="text" name="input"></label>
             <input type="submit" value="Query">
         </form>
         @for(country <- countries) {
@@ -12,10 +13,14 @@
                 <li>
                     @airport.name
                     <ul> @for(runway <- airport.runways) {
-                        <li>@runway.airport_ident</li>
+                        <li>@runway.le_ident</li>
                     } </ul>
                 </li>
             } </ul>
         }
     </div>
+
+    <script src="@routes.Assets.at("lib/horsey/dist/horsey.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/jquery-2.2.0.min.js")" type="text/javascript"></script>
+    <script src="@routes.Assets.at("javascripts/fuzzyCountries.js")" type="text/javascript"></script>
 }

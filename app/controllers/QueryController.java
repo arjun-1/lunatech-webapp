@@ -20,9 +20,8 @@ public class QueryController extends Controller {
     }
 
     @Transactional(readOnly = true)
-    public Result query(String country) {
-        String iso = country; // TODO: make fuzzy
-        List<Country> countries  = (List<Country>) jpaApi.em().createNamedQuery("Country.findByISO").setParameter("iso", iso).getResultList();
+    public Result query(String input) {
+        List<Country> countries  = (List<Country>) jpaApi.em().createNamedQuery("Country.findByNameOrISO").setParameter("input", input).getResultList();
         return ok(views.html.query.render(countries));
     }
 

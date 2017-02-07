@@ -6,6 +6,11 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+@NamedQuery(
+    name = "Airport.findByID",
+   query = "select p from Airport p "
+         + "where p.id = :id"
+)
 @Entity
 public class Airport {
 
