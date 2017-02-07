@@ -7,6 +7,7 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import javax.persistence.TypedQuery;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +25,9 @@ public class AirportController extends Controller {
 
     @Transactional(readOnly = true)
     public Result getAirportsByCountryISO(String iso) {
-        List<Country> countries  = jpaApi.em().createNamedQuery("Country.findByISO").setParameter("iso", iso).getResultList();
+
+        TypedQuery<Country> countryQuery = jpaApi.em().createNamedQuery("Country.findByISO", Country.class).setParameter("iso", iso);
+        List<Country> countries = countryQuery.getResultList();
         List<Airport> airports = countries.stream().flatMap(
             country -> country.airports.stream()
         ).collect(Collectors.toList());

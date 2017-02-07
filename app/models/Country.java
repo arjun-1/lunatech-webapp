@@ -45,6 +45,7 @@ import play.libs.Json;
              + "order by countryCount desc "
     )
 })
+// JPA does not allow subqueries in the from clause, so we resort to native query
 @NamedNativeQuery(
     name = "Country.name.havingLeastAirportCount",
    query = "select Country.name, count(*) "

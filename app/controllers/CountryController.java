@@ -6,6 +6,7 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import javax.persistence.TypedQuery;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +24,9 @@ public class CountryController extends Controller {
 
     @Transactional(readOnly = true)
     public Result getCountryNames() {
-        List<String> countryNames  = (List<String>) jpaApi.em().createNamedQuery("Country.name.findAll").getResultList();
+
+        TypedQuery<String> countryNameQuery = jpaApi.em().createNamedQuery("Country.name.findAll", String.class);
+        List<String> countryNames  = countryNameQuery.getResultList();
         return ok(toJson(countryNames));
     }
 

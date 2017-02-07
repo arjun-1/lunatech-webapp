@@ -1,9 +1,9 @@
-@(pairs: List[Array[Object]], variable: String, caption: String)
+@(pairs: List[Array[Object]], name: String, caption: String)
 
 <table class="twoColumn">
     <caption>@caption</caption>
     <tr>
-        <th >@variable</th>
+        <th >@name</th>
         <th >Count</th>
     </tr>
     @for(pair <- pairs) {

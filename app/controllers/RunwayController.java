@@ -7,6 +7,7 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import javax.persistence.TypedQuery;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +25,10 @@ public class RunwayController extends Controller {
 
     @Transactional(readOnly = true)
     public Result getRunwaysByAirportID(Long id) {
-        List<Airport> airports  = (List<Airport>) jpaApi.em().createNamedQuery("Airport.findByID").setParameter("id", id).getResultList();
+        
+        TypedQuery<Airport> airportQuery = jpaApi.em().createNamedQuery("Airport.findByID", Airport.class).setParameter("id", id);
+        List<Airport> airports = airportQuery.getResultList();
+
         List<Runway> runways = airports.stream().flatMap(
             airport -> airport.runways.stream()
         ).collect(Collectors.toList());

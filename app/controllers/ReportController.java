@@ -9,6 +9,8 @@ import play.db.jpa.Transactional;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import javax.inject.Inject;
 import java.util.List;
 import java.util.ArrayList;
@@ -31,15 +33,20 @@ public class ReportController extends Controller {
         this.jpaApi = jpaApi;
     }
 
-    //@Cached(key="reportPage")
+    // @Cached(key="reportPage")
     @Transactional(readOnly = true)
     public Result report() {
 
-        // Create lists of object arrays, with each array in the list
+        // Create list of String arrays, with each array in the list
         // containing a name and count
-        List<Object[]> countriesWithMostAirports = (List<Object[]>) jpaApi.em().createNamedQuery("Country.name.sortByAirportCountDesc").setMaxResults(10).getResultList();
-        List<Object[]> countriesWithLeastAirports = (List<Object[]>) jpaApi.em().createNamedQuery("Country.name.havingLeastAirportCount").getResultList();
-        List<Object[]> mostCommonRunways = (List<Object[]>) jpaApi.em().createNamedQuery("Runway.le_ident.sortByCountDesc").setMaxResults(10).getResultList();
+        TypedQuery<Object[]> countriesWithMostAirportsQuery = jpaApi.em().createNamedQuery("Country.name.sortByAirportCountDesc", Object[].class);
+        List<Object[]> countriesWithMostAirports = countriesWithMostAirportsQuery.setMaxResults(10).getResultList();
+
+        TypedQuery<Object[]> mostCommonRunwaysQuery = jpaApi.em().createNamedQuery("Runway.le_ident.sortByCountDesc", Object[].class);
+        List<Object[]> mostCommonRunways = mostCommonRunwaysQuery.setMaxResults(10).getResultList();
+
+        // TypedQuery doesn't work for a NativeQuery...
+        List<Object[]> countriesWithLeastAirports = jpaApi.em().createNamedQuery("Country.name.havingLeastAirportCount").getResultList();
 
         // The following 2 piecs of code are equivalent, but the first is 
         // much slower, since it will implicitly make many SQL queries.
@@ -67,12 +74,15 @@ public class ReportController extends Controller {
         Long startTime = System.currentTimeMillis();
 
         // The following represents a table, of distinct surfaces in the left
-        // column, and the country name in the right column
-        List<Object[]> surfacesAndCountries = (List<Object[]>) jpaApi.em().createQuery(
+        // column, and the country name in the right column, sorted by country
+        // name
+
+        TypedQuery<Object[]> surfacesAndCountriesQuery = jpaApi.em().createQuery(
             "select distinct(r.surface), c.name " 
           + "from Airport a, Runway r, Country c "
           + "where a.id = r.airport_ref and c.code = a.iso_country "
-          + "order by c.name").getResultList();
+          + "order by c.name", Object[].class);
+        List<Object[]> surfacesAndCountries = surfacesAndCountriesQuery.getResultList();
 
         // We will use the list of surfaces and countries
         // to make a map: country -> List[surfaces]

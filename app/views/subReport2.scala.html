@@ -1,8 +1,8 @@
-@(map: Map[String, List[String]])
+@(runwaysPerCountry: Map[String, List[String]])
 
 <h2>Types of runway per country</h2>
 <ul>
-@for((country, surfaces) <- map) {
+@for((country, surfaces) <- runwaysPerCountry) {
     <li>
         @country
         <ul>
