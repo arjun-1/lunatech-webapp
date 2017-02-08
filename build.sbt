@@ -7,6 +7,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 scalaVersion := "2.11.8"
 
 // javacOptions ++= Seq("-Xlint:all")
+javaOptions += "-Xmx1G"
 
 libraryDependencies ++= Seq(
     javaJpa,
