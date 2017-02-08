@@ -38,20 +38,19 @@ import play.libs.Json;
     ),
     @NamedQuery(
         name = "Country.name.sortByAirportCountDesc", 
-       query = "select c.name, count(*) as countryCount "
-             + "from Airport a, Country c "
-             + "where c.code = a.iso_country "
+       query = "select c.name, count(a.name) as airportCount "
+             + "from Airport a, Country c where c.code = a.iso_country "
              + "group by a.iso_country "
-             + "order by countryCount desc "
+             + "order by airportCount desc "
     )
 })
 // JPA does not allow subqueries in the from clause, so we resort to native query
 @NamedNativeQuery(
     name = "Country.name.havingLeastAirportCount",
-   query = "select Country.name, count(*) "
-         + "from Airport inner join Country on Country.code = Airport.iso_country "
-         + "group by iso_country "
-         + "having count(*) = (select min(countryCount) from (select count(*) as countryCount from Airport group by iso_country) M)"
+   query = "select c.name, count(a.name) as airportCount "
+         + "from Airport a, Country c where c.code = a.iso_country "
+         + "group by a.iso_country "
+         + "having count(a.name) = (select min(airportCount) from (select count(a.name) as airportCount from Airport a group by a.iso_country) Least) "
 )
 @Entity
 public class Country {
@@ -68,7 +67,7 @@ public class Country {
     public String keywords;
 
     @JsonIgnore
-    @OneToMany(mappedBy="iso_country", fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "iso_country", fetch = FetchType.LAZY)
     public List<Airport> airports;
 
 }

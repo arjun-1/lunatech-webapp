@@ -6,7 +6,7 @@ lazy val root = (project in file(".")).enablePlugins(PlayJava)
 
 scalaVersion := "2.11.8"
 
-// javacOptions ++= Seq("-Xlint:unchecked")
+// javacOptions ++= Seq("-Xlint:all")
 
 libraryDependencies ++= Seq(
     javaJpa,
@@ -18,5 +18,7 @@ libraryDependencies ++= Seq(
 libraryDependencies += "org.webjars.npm" % "horsey" % "4.2.2"
 
 libraryDependencies += "org.mockito" % "mockito-core" % "2.1.0"
+
+libraryDependencies += "junit" % "junit" % "4.12"
 
 // libraryDependencies += cache

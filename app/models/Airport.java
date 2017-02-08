@@ -39,7 +39,7 @@ public class Airport {
     public String keywords;
 
     @JsonIgnore
-    @OneToMany(mappedBy="airport_ref", fetch=FetchType.LAZY)
+    @OneToMany(mappedBy = "airport_ref", fetch = FetchType.LAZY)
     public List<Runway> runways;
 
 }
