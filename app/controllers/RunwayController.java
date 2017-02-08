@@ -2,6 +2,7 @@ package controllers;
 
 import models.Runway;
 import models.Airport;
+import dao.AirportJPADao;
 
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -27,8 +28,8 @@ public class RunwayController extends Controller {
     @Transactional(readOnly = true)
     public Result getRunwaysByAirportID(Long id) {
         
-        TypedQuery<Airport> airportQuery = jpaApi.em().createNamedQuery("Airport.findByID", Airport.class).setParameter("id", id);
-        List<Airport> airports = airportQuery.getResultList();
+        AirportJPADao airportDao = new AirportJPADao(jpaApi);
+        List<Airport> airports =  airportDao.findByID(id);
 
         List<Runway> runways = airports.stream().flatMap(
             airport -> airport.runways.stream()

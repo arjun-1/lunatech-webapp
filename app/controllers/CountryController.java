@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Country;
+import dao.CountryJPADao;
 
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -26,8 +27,8 @@ public class CountryController extends Controller {
     @Transactional(readOnly = true)
     public Result getCountryNames() {
 
-        TypedQuery<String> countryNameQuery = jpaApi.em().createNamedQuery("Country.name.findAll", String.class);
-        List<String> countryNames  = countryNameQuery.getResultList();
+        CountryJPADao countryDao = new CountryJPADao(jpaApi);
+        List<String> countryNames = countryDao.findAllNames();
         return ok(toJson(countryNames));
     }
 

@@ -4,6 +4,9 @@ import models.Country;
 import models.Airport;
 import models.Runway;
 
+import dao.CountryJPADao;
+import dao.RunwayJPADao;
+
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
 import play.mvc.Controller;
@@ -35,18 +38,16 @@ public class ReportController extends Controller {
     @Transactional(readOnly = true)
     public Result report() {
 
+        CountryJPADao countryDao = new CountryJPADao(jpaApi);
+        RunwayJPADao runwayDao = new RunwayJPADao(jpaApi);
+
         /**
         *  Create list of String arrays, with each array in the list
         * containing a name and count
         */
-        TypedQuery<Object[]> countriesWithMostAirportsQuery = jpaApi.em().createNamedQuery("Country.name.sortByAirportCountDesc", Object[].class);
-        List<Object[]> countriesWithMostAirports = countriesWithMostAirportsQuery.setMaxResults(10).getResultList();
-
-        TypedQuery<Object[]> mostCommonRunwaysQuery = jpaApi.em().createNamedQuery("Runway.le_ident.sortByCountDesc", Object[].class);
-        List<Object[]> mostCommonRunways = mostCommonRunwaysQuery.setMaxResults(10).getResultList();
-
-        // TypedQuery doesn't work for a NativeQuery...
-        List<Object[]> countriesWithLeastAirports = jpaApi.em().createNamedQuery("Country.name.havingLeastAirportCount").getResultList();
+        List<Object[]> countriesWithMostAirports = countryDao.find10CountryNamesWithMostAirports();
+        List<Object[]> countriesWithLeastAirports = countryDao.findCountryNamesWithLeastAirports();
+        List<Object[]> mostCommonRunways = runwayDao.find10MostCommonRunways();
 
         /**
         * The following 2 piecs of code are equivalent, but the first is 
@@ -73,15 +74,8 @@ public class ReportController extends Controller {
         
         // FAST (timed at 498 ms):
         long startTime = System.currentTimeMillis();
-
-        /**
-        * The list surfacesAndCountries represents a table, of distinct
-        * surfaces in the left column, and the country name in the right column,
-        * sorted by country name
-        */
-        TypedQuery<Object[]> surfacesAndCountriesQuery = jpaApi.em().createNamedQuery("Runway.le_ident.distinct.sortByCountry", Object[].class);
-        List<Object[]> surfacesAndCountries = surfacesAndCountriesQuery.getResultList();
-        Map<String, List<String>> distinctSurfacesPerCountry = Runway.makeCountrySurfacesMap(surfacesAndCountries);
+       
+        Map<String, List<String>> distinctSurfacesPerCountry = runwayDao.findDistinctSurfacesPerCountry();
         
         long endTime = System.currentTimeMillis();
         long duration = (endTime - startTime);

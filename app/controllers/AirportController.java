@@ -2,6 +2,7 @@ package controllers;
 
 import models.Country;
 import models.Airport;
+import dao.CountryJPADao;
 
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -27,8 +28,9 @@ public class AirportController extends Controller {
     @Transactional(readOnly = true)
     public Result getAirportsByCountryISO(String iso) {
 
-        TypedQuery<Country> countryQuery = jpaApi.em().createNamedQuery("Country.findByISO", Country.class).setParameter("iso", iso);
-        List<Country> countries = countryQuery.getResultList();
+        CountryJPADao countryDao = new CountryJPADao(jpaApi);
+        List<Country> countries = countryDao.findByISO(iso);
+
         List<Airport> airports = countries.stream().flatMap(
             country -> country.airports.stream()
         ).collect(Collectors.toList());
