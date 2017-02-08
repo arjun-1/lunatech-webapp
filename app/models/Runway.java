@@ -57,34 +57,37 @@ public class Runway {
     * is assumed to be the surface, and the second the country name
     */
     public static Map<String, List<String>> makeCountrySurfacesMap (List<Object[]> surfacesAndCountries) {
+
         Map<String, List<String>> countrySurfacesMap = new TreeMap<String, List<String>>();
 
-        /**
-        * a variable to detect 2 subsequent different countries in the
-        * rows of surfacesAndCountries
-        */
-        String prevCountry; 
-
-        if (surfacesAndCountries.size() != 0) prevCountry = surfacesAndCountries.get(0)[1].toString();
-        else prevCountry = "";
-        List<String> surfaces = new ArrayList<String>();
-
-        for (Object[] array : surfacesAndCountries) {
-            String surface = "";
-            if (array[0] != null) surface = array[0].toString();
-            String country = "";
-            if (array[1] != null) country = array[1].toString();
+        if (surfacesAndCountries.size() != 0 
+            && surfacesAndCountries.get(0)[1] != null) {
+            /**
+            * prevCountry is used to detect 2 subsequent different countries
+            * in the rows of surfacesAndCountries
+            */
+            String prevCountry = surfacesAndCountries.get(0)[1].toString();
             
-            if (country == prevCountry) {
-                surfaces.add(surface);
+            List<String> surfaces = new ArrayList<String>();
+
+            for (Object[] array : surfacesAndCountries) {
+                String country = null;
+                String surface = null;
+                
+                if (array[0] != null) surface = array[0].toString();
+                if (array[1] != null) country = array[1].toString();
+                
+                if (country == prevCountry) {
+                    surfaces.add(surface);
+                }
+                else {
+                    countrySurfacesMap.put(prevCountry, surfaces);
+                    surfaces = new ArrayList<String>();
+                    prevCountry = country;
+                }
             }
-            else {
-                countrySurfacesMap.put(prevCountry, surfaces);
-                surfaces = new ArrayList<String>();
-                prevCountry = country;
-            }
+            countrySurfacesMap.put(prevCountry, surfaces);
         }
-        countrySurfacesMap.put(prevCountry, surfaces);
         return countrySurfacesMap;
     }
 }
