@@ -60,13 +60,14 @@ public class Runway {
 
         Map<String, List<String>> countrySurfacesMap = new TreeMap<String, List<String>>();
 
-        if (surfacesAndCountries.size() != 0 
-            && surfacesAndCountries.get(0)[1] != null) {
+        if (surfacesAndCountries.size() != 0) {
             /**
             * prevCountry is used to detect 2 subsequent different countries
             * in the rows of surfacesAndCountries
             */
-            String prevCountry = surfacesAndCountries.get(0)[1].toString();
+            String prevCountry = null;
+            if (surfacesAndCountries.get(0)[1] != null)
+                prevCountry = surfacesAndCountries.get(0)[1].toString();
             
             List<String> surfaces = new ArrayList<String>();
 
