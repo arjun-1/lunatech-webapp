@@ -45,7 +45,7 @@ public class ReportController extends Controller {
          * containing a name and count
          */
         List<Object[]> countriesWithMostAirports = countryDao.find10NamesWithMostAirports();
-        List<Object[]> countriesWithLeastAirports = countryDao.findNamesWithLeastAirports();
+        List<Object[]> countriesWithLeastAirports = countryDao.find10NamesWithLeastAirports();
         List<Object[]> mostCommonIdents = runwayDao.find10MostCommonIdents();
 
         /**

@@ -62,6 +62,7 @@ public class IntegrationTest extends WithServer {
         assertThat(body, containsString("H1"));
         assertThat(body, containsString("5566"));
         assertThat(body, containsString("CONCRETE AND ASP"));
+        assertThat(body, containsString("South Georgia and the South Sandwich Islands"));
     }
 
 

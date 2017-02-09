@@ -31,16 +31,16 @@ public class CountryJPADao implements CountryDao {
 	}
 
 	public List<Object[]> find10NamesWithMostAirports() {
-		TypedQuery<Object[]> countriesWithMostAirportsQuery = jpaApi.em().createNamedQuery("Country.name.sortByAirportCountDesc", Object[].class);
-        List<Object[]> countriesWithMostAirports = countriesWithMostAirportsQuery.setMaxResults(10).getResultList();
+		List<Object[]> countriesWithMostAirports = jpaApi.em().createNamedQuery("Country.name.sortByAirportCountDesc").setMaxResults(10).getResultList();
         return countriesWithMostAirports;
     }
 
-    public List<Object[]> findNamesWithLeastAirports() {
-        // TypedQuery doesn't work for a NativeQuery...
-    	List<Object[]> countriesWithLeastAirports = jpaApi.em().createNamedQuery("Country.name.havingLeastAirportCount").getResultList();
-    	return countriesWithLeastAirports;
+    public List<Object[]> find10NamesWithLeastAirports() {
+        List<Object[]> countriesWithMostAirports = jpaApi.em().createNamedQuery("Country.name.sortByAirportCountAsc").setMaxResults(10).getResultList();
+        return countriesWithMostAirports;
     }
+
+
 
     public List<String> findAllNames() {
     	TypedQuery<String> countryNamesQuery = jpaApi.em().createNamedQuery("Country.name.findAll", String.class);
