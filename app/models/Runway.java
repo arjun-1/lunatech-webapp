@@ -2,12 +2,6 @@ package models;
 
 import javax.persistence.*;
 
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.List;
-import java.util.ArrayList;
-
-
 @NamedQueries({
     @NamedQuery(
     name = "Runway.le_ident.sortByCountDesc",
@@ -28,67 +22,35 @@ import java.util.ArrayList;
 public class Runway {
     
     @Id
-    public Long id;
+    private Long id;
 
-    public Long airport_ref;
-    public String airport_ident;
-    public String length_ft;
-    public String width_ft;
-    public String surface;
-    public String lighted;
-    public String closed;
-    public String le_ident;
-    public String le_latitude_deg;
-    public String le_longitude_deg;
-    public String le_elevation_ft;
-    public String le_heading_degT;
-    public String le_displaced_threshold_ft;
-    public String he_ident;
-    public String he_latitude_deg;
-    public String he_longitude_deg;
-    public String he_elevation_ft;
-    public String he_heading_degT;
-    public String he_displaced_threshold_ft;
+    private Long airport_ref;
+    private String airport_ident;
+    private String length_ft;
+    private String width_ft;
+    private String surface;
+    private String lighted;
+    private String closed;
+    private String le_ident;
+    private String le_latitude_deg;
+    private String le_longitude_deg;
+    private String le_elevation_ft;
+    private String le_heading_degT;
+    private String le_displaced_threshold_ft;
+    private String he_ident;
+    private String he_latitude_deg;
+    private String he_longitude_deg;
+    private String he_elevation_ft;
+    private String he_heading_degT;
+    private String he_displaced_threshold_ft;
+
+    // public getID() { return id; }
+    public String getIdent() { return le_ident; }
+    public String getSurface() { return surface; }
 
     /**
-    * Use a list of (unique) surfaces and country names (sorted by country name)
-    * to make a map: country name -> List[surfaces]
-    * Each element of the list is an object array, of which the first element
-    * is assumed to be the surface, and the second the country name
-    */
-    public static Map<String, List<String>> makeCountrySurfacesMap (List<Object[]> surfacesAndCountries) {
-
-        Map<String, List<String>> countrySurfacesMap = new TreeMap<String, List<String>>();
-
-        if (surfacesAndCountries.size() != 0) {
-            /**
-            * prevCountry is used to detect 2 subsequent different countries
-            * in the rows of surfacesAndCountries
-            */
-            String prevCountry = null;
-            if (surfacesAndCountries.get(0)[1] != null)
-                prevCountry = surfacesAndCountries.get(0)[1].toString();
-            
-            List<String> surfaces = new ArrayList<String>();
-
-            for (Object[] array : surfacesAndCountries) {
-                String country = null;
-                String surface = null;
-                
-                if (array[0] != null) surface = array[0].toString();
-                if (array[1] != null) country = array[1].toString();
-                
-                if (country == prevCountry) {
-                    surfaces.add(surface);
-                }
-                else {
-                    countrySurfacesMap.put(prevCountry, surfaces);
-                    surfaces = new ArrayList<String>();
-                    prevCountry = country;
-                }
-            }
-            countrySurfacesMap.put(prevCountry, surfaces);
-        }
-        return countrySurfacesMap;
-    }
+     * The following setters are used in the Unit Tests
+     */
+    public void setIdent(String le_ident) { this.le_ident = le_ident; }
+    
 }

@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Country;
+import dao.CountryJPADao;
 
 import play.db.jpa.JPAApi;
 import play.db.jpa.Transactional;
@@ -24,13 +25,10 @@ public class QueryController extends Controller {
 
     @Transactional(readOnly = true)
     public Result query(String input) {
-        List<Country> countries;
+        List<Country> countries = new ArrayList<Country>();
         if (input != null) {
-            TypedQuery<Country> countryQuery = jpaApi.em().createNamedQuery("Country.findByNameOrISO", Country.class).setParameter("input", input);
-            countries = countryQuery.getResultList();
-        }
-        else {
-            countries = new ArrayList<Country>();   
+            CountryJPADao countryDao = new CountryJPADao(jpaApi);
+            countries = countryDao.findByNameOrISO(input);
         }
         return ok(views.html.query.render(countries));
     }

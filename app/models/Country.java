@@ -55,19 +55,30 @@ import play.libs.Json;
 @Entity
 public class Country {
 
-    public Long id;
+    private Long id;
     
     @Id
     @Column(length = 2)
-    public String code;
+    private String code;
     
-    public String name;
-    public String continent;
-    public String wikipedia_link;
-    public String keywords;
+    private String name;
+    private String continent;
+    private String wikipedia_link;
+    private String keywords;
 
     @JsonIgnore
     @OneToMany(mappedBy = "iso_country", fetch = FetchType.LAZY)
-    public List<Airport> airports;
+    private List<Airport> airports;
+
+    // public String getISO() { return code; }
+    public String getName() { return name; }
+    public List<Airport> getAirports() { return airports; }
+
+    /**
+     * The following setters are used in the Unit Tests
+     */
+    public void setName(String name) { this.name = name; }
+    public void setAirports(List<Airport> airports) { this.airports = airports; }
+
 
 }

@@ -8,12 +8,12 @@
             <input type="submit" value="Query">
         </form>
         @for(country <- countries) {
-            <h2>Airports and runways in @country.name</h2>
-            <ul> @for(airport <- country.airports) {
+            <h2>Airports and runways in @country.getName()</h2>
+            <ul> @for(airport <- country.getAirports()) {
                 <li>
-                    @airport.name
-                    <ul> @for(runway <- airport.runways) {
-                        <li>@runway.le_ident</li>
+                    @airport.getName()
+                    <ul> @for(runway <- airport.getRunways()) {
+                        <li>@runway.getIdent()</li>
                     } </ul>
                 </li>
             } </ul>
