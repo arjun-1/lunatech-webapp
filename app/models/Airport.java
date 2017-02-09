@@ -15,31 +15,41 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Airport {
 
     @Id
-    public Long id;
+    private Long id;
 
-    public String ident;
-    public String type;
-    public String name;
-    public String latitude_deg;
-    public String longitude_deg;
-    public String elevation_ft;
-    public String continent;
+    private String ident;
+    private String type;
+    private String name;
+    private String latitude_deg;
+    private String longitude_deg;
+    private String elevation_ft;
+    private String continent;
 
     @Column(length = 2)
-    public String iso_country;
+    private String iso_country;
     
-    public String iso_region;
-    public String municipality;
-    public String scheduled_service;
-    public String gps_code;
-    public String iata_code;
-    public String local_code;
-    public String home_link;
-    public String wikipedia_link;
-    public String keywords;
+    private String iso_region;
+    private String municipality;
+    private String scheduled_service;
+    private String gps_code;
+    private String iata_code;
+    private String local_code;
+    private String home_link;
+    private String wikipedia_link;
+    private String keywords;
 
     @JsonIgnore
     @OneToMany(mappedBy = "airport_ref", fetch = FetchType.LAZY)
-    public List<Runway> runways;
+    private List<Runway> runways;
 
+    // public getID() { return id; }
+    public String getName() { return name; }
+    // public getISO() { return iso_country; }
+    public List<Runway> getRunways() {return runways; }
+
+    /**
+     * The following setters are used in the Unit Tests
+     */
+    public void setName(String name) { this.name = name; }
+    public void setRunways(List<Runway> runways) { this.runways = runways; }
 }

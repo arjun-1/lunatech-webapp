@@ -32,7 +32,7 @@ public class RunwayController extends Controller {
         List<Airport> airports =  airportDao.findByID(id);
 
         List<Runway> runways = airports.stream().flatMap(
-            airport -> airport.runways.stream()
+            airport -> airport.getRunways().stream()
         ).collect(Collectors.toList());
 
         return ok(toJson(runways));

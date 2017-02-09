@@ -22,27 +22,35 @@ import javax.persistence.*;
 public class Runway {
     
     @Id
-    public Long id;
+    private Long id;
 
-    public Long airport_ref;
-    public String airport_ident;
-    public String length_ft;
-    public String width_ft;
-    public String surface;
-    public String lighted;
-    public String closed;
-    public String le_ident;
-    public String le_latitude_deg;
-    public String le_longitude_deg;
-    public String le_elevation_ft;
-    public String le_heading_degT;
-    public String le_displaced_threshold_ft;
-    public String he_ident;
-    public String he_latitude_deg;
-    public String he_longitude_deg;
-    public String he_elevation_ft;
-    public String he_heading_degT;
-    public String he_displaced_threshold_ft;
+    private Long airport_ref;
+    private String airport_ident;
+    private String length_ft;
+    private String width_ft;
+    private String surface;
+    private String lighted;
+    private String closed;
+    private String le_ident;
+    private String le_latitude_deg;
+    private String le_longitude_deg;
+    private String le_elevation_ft;
+    private String le_heading_degT;
+    private String le_displaced_threshold_ft;
+    private String he_ident;
+    private String he_latitude_deg;
+    private String he_longitude_deg;
+    private String he_elevation_ft;
+    private String he_heading_degT;
+    private String he_displaced_threshold_ft;
 
+    // public getID() { return id; }
+    public String getIdent() { return le_ident; }
+    public String getSurface() { return surface; }
+
+    /**
+     * The following setters are used in the Unit Tests
+     */
+    public void setIdent(String le_ident) { this.le_ident = le_ident; }
     
 }

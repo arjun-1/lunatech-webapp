@@ -32,7 +32,7 @@ public class AirportController extends Controller {
         List<Country> countries = countryDao.findByISO(iso);
 
         List<Airport> airports = countries.stream().flatMap(
-            country -> country.airports.stream()
+            country -> country.getAirports().stream()
         ).collect(Collectors.toList());
         return ok(toJson(airports));
     }

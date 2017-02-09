@@ -18,7 +18,7 @@ public class AirportJPADao implements AirportDao {
         this.jpaApi = jpaApi;
     }
 
-    @Transactional(readOnly = true)
+
     public List<Airport> findByID(Long id) {
         TypedQuery<Airport> airportsQuery = jpaApi.em().createNamedQuery("Airport.findByID", Airport.class).setParameter("id", id);
         List<Airport> airports = airportsQuery.getResultList();

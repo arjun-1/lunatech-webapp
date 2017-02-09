@@ -55,27 +55,31 @@ public class UnitTest {
     @Test
     public void checkQueryTemplate() {
         List<Country> countries = new ArrayList<Country>();
+        List<Runway> runways = new ArrayList<Runway>();
+        List<Airport> airports = new ArrayList<Airport>();
         
         Country country = new Country();
         Airport airport = new Airport();
         Runway runway = new Runway();
 
-        runway.le_ident = "mySurface";
-        airport.name = "myAirportName";
-        country.name = "myCountryName";
+        runway.setIdent("myIdent");
+        airport.setName("myAirportName");
+        country.setName("myCountryName");
 
-        airport.runways = new ArrayList<Runway>();
-        airport.runways.add(runway);
-        country.airports = new ArrayList<Airport>();
-        country.airports.add(airport);
-        countries.add(country);
+        runways.add(runway);
+        airport.setRunways(runways);
         
+        airports.add(airport);
+        country.setAirports(airports);
+
+        countries.add(country);
+
         Content html = views.html.query.render(countries);
         assertEquals("text/html", html.contentType());
         assertTrue(contentAsString(html).contains("Country:"));
         assertTrue(contentAsString(html).contains("myCountryName"));
         assertTrue(contentAsString(html).contains("myAirportName"));
-        assertTrue(contentAsString(html).contains("mySurface"));
+        assertTrue(contentAsString(html).contains("myIdent"));
     }
 
     @Test
