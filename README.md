@@ -2,6 +2,8 @@
 # lunatech-webapp
 
 Solution to the lunatech assignment
+#### Note
+There is also a [dao](https://github.com/arjun-1/lunatech-webapp/tree/dao) branch of this application, where the code is a little bit more agnostic with respect to the database.
 
 ## Getting Started
 
